@@ -21,5 +21,6 @@ from url_shorter import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="index.html"), name='home'),
-    # path('create/', views.LinkCreate.as_view(), name='link_create'),
+    path('create/', views.LinkCreate.as_view(), name='link_create'),
+    path('r/<slug:slug>/', views.redirect_to, name='redirect'),
 ]

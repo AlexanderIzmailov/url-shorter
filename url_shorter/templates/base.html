@@ -5,7 +5,6 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
-{# Display django.contrib.messages as Bootstrap alerts #}
 
 {% block bootstrap4_content %}
     <head>
@@ -32,6 +31,7 @@
             </ul>
         </div>
     </nav>
+{% bootstrap_messages %}
 {% endblock %}
 
 {% block content %}
