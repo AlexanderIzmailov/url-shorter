@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    <h1>Deleting link</h1>
+    <br>
+    <form method="post">{% csrf_token %}
+        <p>Do you really want to delete the link {{ object.name }}?</p>
+        {% bootstrap_form form%}
+        {% buttons submit="Yes" %}
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock %}

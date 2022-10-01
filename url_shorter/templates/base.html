@@ -19,15 +19,30 @@
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_links' %}">My links<span class="sr-only"></span></a>
+                </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav">
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Вход<span class="sr-only"></span></a>
+                    <span class="navbar-text">
+                        {{user.username}}
+                    </span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Регистрация<span class="sr-only"></span></a>
+                    <a class="nav-link" href="{% url 'users_logout' %}">Logout<span class="sr-only"></span></a>
                 </li>
+                {% else %}              
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_login' %}">Login<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_create' %}">Registration<span class="sr-only"></span></a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

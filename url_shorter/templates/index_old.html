@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div class="container wrapper flex-grow-1">
+        <br>
+        <h1>Creating link</h1>
+        <br>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form%}
+            {% buttons submit="Создать" %}
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="container wrapper flex-grow-1">
+        <br>
+        <h1>All links</h1>
+        <br>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Link, full</th>
+                        <th>Link, short</th>
+                        <th>User</th>
+                        <th>Quantity of redirects</th>
+                        <th>Creation time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for link in object_list %}
+                    <tr>
+                        <td>{{link.link_full}}</td>
+                        <td>{{link.link_short}}</td>
+                        <td>
+                            {% if link.creator %}
+                                {{link.creator}}
+                            {% else %}
+                                Anonymous
+                            {% endif %}
+                        </td>
+                        <td>{{link.clicks_quantity}}</td>
+                        <td>{{link.time_create}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

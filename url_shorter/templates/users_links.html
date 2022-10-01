@@ -2,21 +2,10 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<div class="container wrapper flex-grow-1">
-    <br>
-    <h1>Creating link</h1>
-    <br>
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form%}
-        {% buttons submit="Создать" %}
-        {% endbuttons %}
-    </form>
-</div>
 
 <div class="container wrapper flex-grow-1">
     <br>
-    <h1>Last 5 links</h1>
+    <h1>{{request.user}}'s links:</h1>
     <br>
 
     <div class="table-responsive">
@@ -31,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for link in object_list %}
+                {% for link in url_list %}
                 <tr>
                     <td>
                         <a href={{link.link_full}}>{{link.link_full}}</a>
@@ -48,6 +37,9 @@
                     </td>
                     <td>{{link.clicks_quantity}}</td>
                     <td>{{link.time_create}}</td>
+                    <td>
+                        <a href="{% url 'links_delete' pk=link.id %}">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
