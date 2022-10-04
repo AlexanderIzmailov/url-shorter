@@ -4,7 +4,18 @@
 {% block content %}
 
 <div class="container wrapper flex-grow-1">
-    {% if request.session.new_link %}
+    {% if new_link %}
+    <br>
+    <div class="p-3 mb-2 bg-primary text-white text-center h3">
+        Your new link:
+        <br>
+        <a class="text-light h2" href="{% url 'redirect' slug=new_link %}">
+            <u>{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'redirect' slug=new_link %}</u>
+        </a>
+    </div>
+
+    {% endif %}
+    <!-- {% if request.session.new_link %}
     <br>
     <div class="p-3 mb-2 bg-primary text-white text-center h3">
         Your new link:
@@ -14,7 +25,7 @@
         </a>
     </div>
 
-    {% endif %}
+    {% endif %} -->
     <br>
     <h1>{{request.user}}'s links:</h1>
     <br>

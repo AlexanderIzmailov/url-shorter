@@ -14,6 +14,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import MyTaskPermissionMixin
+from datetime import datetime, timedelta
 
 
 def generate_short_link():
@@ -72,7 +73,7 @@ def redirect_to(request, slug):
 class LinkCreate(SuccessMessageMixin, CreateView):
     form_class = CreateLink
     template_name = "index.html"
-    success_url = reverse_lazy('users_links')
+    # success_url = reverse_lazy('users_links')
     # link_short = generate_short_link()
     # success_message = 'Done! Short link: ' + link_short
 
@@ -80,8 +81,13 @@ class LinkCreate(SuccessMessageMixin, CreateView):
         if self.request.user.is_authenticated:
             form.instance.creator = self.request.user
 
+            self.success_url = reverse_lazy('users_links')
+        else:
+            self.success_url = reverse_lazy('home')
+
         self.link_short = generate_short_link()
         self.success_message = 'Done! Short link: ' + self.link_short
+        
         self.request.session["new_link"] = self.link_short
 
         form.instance.link_short = self.link_short
@@ -90,6 +96,12 @@ class LinkCreate(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_list'] = URL.objects.all().order_by('-id')[:5]
+
+        is_new_link = self.request.session.get("new_link")
+        if is_new_link:
+            context['new_link'] = is_new_link
+            del self.request.session["new_link"]
+
         return context
 
     # def get_success_url(self):
@@ -109,6 +121,7 @@ class LoginUser(SuccessMessageMixin, LoginView):
     template_name = "login.html"
     next_page = reverse_lazy('home')
     success_message = "You're in!"
+
 
 def logout_user(request):
     logout(request)
@@ -131,10 +144,15 @@ class UserLink(LoginRequiredMixin, ListView):
         user = self.request.user
         return URL.objects.filter(creator=user)
     
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['new_link'] = "ASD"
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        is_new_link = self.request.session.get("new_link")
+        if is_new_link:
+            context['new_link'] = is_new_link
+            del self.request.session["new_link"]
+
+        return context
 
 
 class LinkDelete(MyTaskPermissionMixin, SuccessMessageMixin, DeleteView):
