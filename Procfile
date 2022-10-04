@@ -1,1 +1,1 @@
-web: gunicorn task_manager.wsgi --log-file -
+web: gunicorn url_shorter.wsgi --log-file -
