@@ -23,6 +23,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Link, full</th>
                     <th>Link, short</th>
                     <th>User</th>
@@ -33,6 +34,7 @@
             <tbody>
                 {% for link in object_list %}
                 <tr>
+                    <td>{{link.id}}</td>
                     <td>
                         <a href={{link.link_full}}>{{link.link_full}}</a>
                     </td>

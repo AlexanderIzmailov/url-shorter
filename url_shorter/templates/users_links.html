@@ -4,6 +4,17 @@
 {% block content %}
 
 <div class="container wrapper flex-grow-1">
+    {% if request.session.new_link %}
+    <br>
+    <div class="p-3 mb-2 bg-primary text-white text-center h3">
+        Your new link:
+        <br>
+        <a class="text-light h2" href="{% url 'redirect' slug=request.session.new_link %}">
+            <u>{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'redirect' slug=request.session.new_link %}</u>
+        </a>
+    </div>
+
+    {% endif %}
     <br>
     <h1>{{request.user}}'s links:</h1>
     <br>
@@ -12,6 +23,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Link, full</th>
                     <th>Link, short</th>
                     <th>User</th>
@@ -22,6 +34,7 @@
             <tbody>
                 {% for link in url_list %}
                 <tr>
+                    <td>{{link.id}}</td>
                     <td>
                         <a href={{link.link_full}}>{{link.link_full}}</a>
                     </td>
